@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <!-- <script src="./Magnus.js" defer></script> -->
+    <!-- <script src="./index.js" defer></script> -->
+    <script src="./Magnus.js"></script>
+    <script src="./src/petite-vue.iife.js"></script>
+    <script src="./src/alpinejs@3.4.2cdn.min.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <form id="form">
+        <div class="form-group" id="nameWrapper">
+          <label class="control-label" for="name">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Digitar nombre" />
+        </div>
+
+        <div class="form-group" id="emailWrapper">
+          <label class="control-label" for="email">Email</label>
+          <input type="text" class="form-control" id="email" name="email" placeholder="Digitar email" />
+          <small class="form-text control-label">We'll never share your email with anyone else.</small>
+        </div>
+
+        <!-- <div class="form-group" id="cantidadWrapper">
+          <label class="control-label" for="cantidad">Cantidad</label>
+          <input type="text" class="form-control" id="cantidad" name="cantidad" placeholder="Digitar cantidad" />
+        </div> -->
+
+        <div class="form-group has-success" id="cantidadWrapper">
+          <label class="control-label" for="cantidad">Cantidad</label>
+          <input type="text" class="form-control" id="cantidad" name="cantidad" placeholder="Digitar cantidad" />
+          <span id="helpBlock2" class="help-block"
+            >A block of help text that breaks onto a new line and may extend beyond one line.</span
+          >
+        </div>
+        <div class="form-group has-success">
+          <div class="row">
+            <div class="col-xs-2">
+              <input type="text" class="form-control" placeholder=".col-xs-2" />
+            </div>
+            <div class="col-xs-3">
+              <input type="text" class="form-control" placeholder=".col-xs-3" />
+            </div>
+            <div class="col-xs-4">
+              <input type="text" class="form-control" placeholder=".col-xs-4" />
+            </div>
+          </div>
+        </div>
+
+        <template id="input-template">
+          <div class="form-group" :class="{'has-error': hasError}">
+            <label class="control-label" :for="name">{{label||name}}</label>
+            <input
+              type="text"
+              class="form-control"
+              :id="name"
+              :name="name"
+              :placeholder="placeholder"
+              v-model="value"
+              @blur="validateInput"
+            />
+            <small class="form-text control-label" v-if="small">{{small}}</small>
+            <span class="help-block" v-if="withError">{{errors}}</span>
+          </div>
+        </template>
+
+        <div v-scope="Input({ name: 'metadata', label: 'Metadata'})"></div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+      <div v-scope></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+      // MagnusForm('#form', () => ({
+      //   '#nameWrapper':metadata,
+      //   '#emailWrapper': new MagnusValidator('#email').required(),
+      //   '#cantidadWrapper': new MagnusValidator('#cantidad').numeric().required(),
+      // }));
+
+      function Input({ name, label, placeholder = '', small = '' }) {
+        const inputs = {
+          metadata(e) {
+            return new MagnusValidator(e).required().minText(5);
+          },
+        };
+        return {
+          $template: '#input-template',
+          name,
+          label,
+          placeholder,
+          small,
+          value: '',
+          errors: [],
+          get hasError() {
+            return this.errors.length;
+          },
+          validateInput() {
+            if (!inputs[this.name]) throw new Error('Falta especificar la función de validación');
+            const validated = inputs[this.name](this.value);
+            if (validated.ok) {
+              this.errors = [];
+              return;
+            }
+            this.errors = validated.errorList.join(' ');
+          },
+        };
+      }
+      PetiteVue.createApp({
+        Input,
+      }).mount();
+    </script>
+  </body>
+</html>
