@@ -24,7 +24,7 @@
     <div class="container-fluid mt-4 px-5" x-data="stepper">
       <div class="col-12 col-md-10 offset-1">
         <div class="card mb-3">
-          <form action="">
+          <form action="" @submit.prevent="validateForm">
             <div class="card-body">
               <h4>Agregar registro de acta 📝</h4>
               <div class="row">
@@ -37,33 +37,52 @@
                         <option value="c.temporada" x-text="c.temporada"></option>
                       </template>
                     </select>
-
                     <small class="form-text text-muted">Temporada de gestión.</small>
+                    <template x-if="temporada.hasError">
+                      <small class="form-text text-danger" x-text="temporada.errorMessage"></small>
+                    </template>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="numero_acta" class="mb-0">Número de acta</label>
-                    <input type="text" class="form-control" name="numero_acta" id="numero_acta" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      :class="numero_acta.hasError && 'is-invalid'"
+                      name="numero_acta"
+                      id="numero_acta"
+                      x-model="numero_acta.value"
+                      @keyup="handleOnChange"
+                    />
                     <small class="form-text text-muted">El identificador del acta.</small>
+                    <template x-if="numero_acta.hasError">
+                      <small class="form-text text-danger" x-text="numero_acta.errorMessage"></small>
+                    </template>
                   </div>
                 </div>
 
                 <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="files">Seleccionar documentos</label>
+                  <div class="custom-file">
                     <input
                       type="file"
-                      class="form-control-file"
-                      id="files"
-                      name="archivos"
+                      id="archivos"
+                      class="custom-file-input"
+                      lang="es"
                       multiple
-                      @change="handleInputOnChange"
+                      name="archivos"
+                      @blur="handleOnChange"
+                      :class="archivos.hasError && 'is-invalid'"
                     />
+                    <label class="custom-file-label" for="archivos">Seleccionar Archivo</label>
                   </div>
+
+                  <template x-if="archivos.hasError">
+                    <small class="form-text text-danger" x-text="archivos.errorMessage"></small>
+                  </template>
                   <ul class="list-group list-group-flush my-3">
-                    <template x-for="(file, i) in fileList">
+                    <template x-for="(file) in archivos.value">
                       <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span x-text="file"></span>
                       </li>
@@ -72,7 +91,7 @@
                 </div>
               </div>
 
-              <button type="reset" class="btn btn-dark">Cancelar</button>
+              <button type="button" class="btn btn-dark" @click="resetForm">Cancelar</button>
               <button type="submit" class="btn btn-primary">Almacenar</button>
             </div>
           </form>
@@ -96,9 +115,6 @@
   </body>
 
   <script>
-    const a = new Magnus('').required();
-    console.log(a);
-
     const errorFormulario = [{ name: 'identificador', mensaje: 'No debe ser vacio' }];
 
     const catalogo = [
@@ -114,7 +130,10 @@
     ];
 
     $(document).ready(function () {
-      $('#temporada').select2({ width: '100%', placeholder: 'Seleccionar una temporada' }).val('').trigger('change');
+      window.selectedInputTemporada = $('#temporada')
+        .select2({ width: '100%', placeholder: 'Seleccionar una temporada' })
+        .val('')
+        .trigger('change');
     });
 
     document.addEventListener('alpine:init', () => {
@@ -122,13 +141,81 @@
         catalogo,
         fileList: [],
 
-        handleInputOnChange(e) {
-          const files = e.target.files;
-          this.fileList = [];
-          for (let i = 0; i < files.length; i++) {
-            const file = files.item(i);
-            this.fileList.push(file.name);
+        numero_acta: {
+          value: '',
+          hasError: false,
+          errorMessage: '',
+          validation: _.debounce(function () {
+            this.hasError = false;
+            const result = new Magnus(this.value).required();
+            if (!result.ok) {
+              this.hasError = true;
+              this.errorMessage = result.errorList.join(' ');
+            }
+          }, 500),
+        },
+
+        archivos: {
+          value: [],
+          hasError: false,
+          errorMessage: 'Debe agregar al menos un documento.',
+          validation(e) {
+            this.hasError = false;
+            const files = e.target.files;
+            this.value = [];
+
+            for (let i = 0; i < files.length; i++) {
+              this.value.push(files.item(i).name);
+            }
+
+            if (files.length === 0) {
+              this.hasError = true;
+            }
+          },
+        },
+
+        temporada: {
+          hasError: false,
+          errorMessage: 'Debe seleccionar una temporada.',
+          validation(e) {
+            const value = window.selectedInputTemporada.val();
+            const spanSelect = document.querySelector('.select2-selection.select2-selection--single');
+
+            spanSelect.style.border = '1px solid #aaa';
+            if (value === null || value === undefined) {
+              this.hasError = true;
+              spanSelect.style.border = '1px solid #dc3545';
+            }
+          },
+        },
+
+        validateForm() {
+          this.numero_acta.validation();
+          this.numero_acta.validation.flush();
+
+          this.temporada.validation();
+
+          if (this.archivos.value.length === 0) {
+            this.archivos.hasError = true;
           }
+        },
+
+        resetForm() {
+          this.numero_acta.value = '';
+          this.numero_acta.hasError = false;
+
+          this.archivos.value = [];
+          this.archivos.hasError = false;
+
+          window.selectedInputTemporada.val('').trigger('change');
+          this.temporada.hasError = false;
+          const spanSelect = document.querySelector('.select2-selection.select2-selection--single');
+          spanSelect.style.border = '1px solid #aaa';
+        },
+
+        handleOnChange(e) {
+          const inputName = e.target.name;
+          let result = this[inputName].validation(e);
         },
       }));
     });
