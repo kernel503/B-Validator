@@ -21,10 +21,10 @@
     <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
   </head>
   <body class="bg-light">
-    <div class="container-fluid mt-4 px-5" x-data="stepper">
+    <div class="container-fluid mt-4 px-5">
       <div class="col-12 col-md-10 offset-1">
         <div class="card mb-3">
-          <form action="" @submit.prevent="validateForm">
+          <form action="" @submit.prevent="validateForm" x-data="stepper" x-ref="form">
             <div class="card-body">
               <h4>Agregar registro de acta 📝</h4>
               <div class="row">
@@ -137,6 +137,8 @@
     });
 
     document.addEventListener('alpine:init', () => {
+      let isValidForm = false;
+
       Alpine.data('stepper', () => ({
         catalogo,
         fileList: [],
@@ -149,6 +151,7 @@
             this.hasError = false;
             const result = new Magnus(this.value).required();
             if (!result.ok) {
+              isValidForm = false;
               this.hasError = true;
               this.errorMessage = result.errorList.join(' ');
             }
@@ -169,6 +172,7 @@
             }
 
             if (files.length === 0) {
+              isValidForm = false;
               this.hasError = true;
             }
           },
@@ -183,6 +187,7 @@
 
             spanSelect.style.border = '1px solid #aaa';
             if (value === null || value === undefined) {
+              isValidForm = false;
               this.hasError = true;
               spanSelect.style.border = '1px solid #dc3545';
             }
@@ -190,6 +195,8 @@
         },
 
         validateForm() {
+          isValidForm = true;
+
           this.numero_acta.validation();
           this.numero_acta.validation.flush();
 
@@ -197,6 +204,12 @@
 
           if (this.archivos.value.length === 0) {
             this.archivos.hasError = true;
+          }
+
+          if (isValidForm) {
+            this.$refs.form.submit();
+          } else {
+            console.log('SnackBar Error');
           }
         },
 
