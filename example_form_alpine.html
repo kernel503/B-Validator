@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alpine</title>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+
+    <script src="./src/alpinejs@3.4.2.cdn.min.js" defer></script>
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <div class="container">
+      <form @submit.prevent="handleSubmit" x-data="formulario" x-ref="formulario">
+        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <template x-for="(input,i) in inputs">
+          <div class="form-group" :class="{'has-error': input.error}">
+            <label class="control-label" :for="input.name" x-text="input.label||input.name"></label>
+            <input
+              :type="input.type"
+              class="form-control"
+              :id="input.name"
+              :name="input.name"
+              :placeholder="input.placeholder"
+              x-model="input.value"
+              @blur="checkInput(input.name, i)"
+            />
+            <template x-if="input.small">
+              <small class="form-text control-label" x-text="input.smal"></small>
+            </template>
+            <template x-if="input.error">
+              <span class="help-block" x-text="input.error"></span>
+            </template>
+          </div>
+        </template>
+
+        <div class="form-group">
+          <label for="estudiantes">Estudiantes</label>
+          <input type="text" class="form-control" name="grado" value="ABCD" />
+          <small class="form-text control-label">Presionar Enter para agregar</small>
+        </div>
+
+        <div class="form-group">
+          <label for="estudiantes">Estudiantes</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Estudiantes"
+            @keyup.enter="addStudent"
+            x-model="estudiante"
+          />
+          <small class="form-text control-label">Presionar Enter para agregar</small>
+        </div>
+
+        <template x-if="estudiantes.length">
+          <h4>Listado de estudiantes</h4>
+        </template>
+        <template x-for="estudiante in estudiantes">
+          <div class="form-group input-group">
+            <input type="text" class="form-control" name="estudiantes" :value="estudiante" readonly />
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-danger dropdown-toggle" @click="removeStudent(estudiante)">
+                <span aria-hidden="true">Eliminar</span>
+              </button>
+            </div>
+          </div>
+        </template>
+
+        <button type="button" class="btn btn-default" @click="resetForm">Reset</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <script src="./Magnus.js"></script>
+    <script>
+      document.addEventListener('alpine:init', () => {});
+    </script>
+  </body>
+</html>

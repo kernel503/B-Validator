@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Petite Vue</title>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <form id="form" @submit.prevent="handleSubmit">
+        <template v-for="(input,i) in inputs">
+          <div class="form-group" :class="{'has-error': input.error}">
+            <label class="control-label" :for="input.name" v-text="input.label||input.name"></label>
+            <input
+              :type="input.type"
+              class="form-control"
+              :id="input.name"
+              :name="input.name"
+              :placeholder="input.placeholder"
+              v-model="input.value"
+              @blur="checkInput(input.name, i)"
+            />
+            <small class="form-text control-label" v-if="input.small" v-text="input.smal"></small>
+            <span class="help-block" v-if="input.error" v-text="input.error"></span>
+          </div>
+        </template>
+
+        <button type="button" class="btn btn-default" @click="resetForm">Reset</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="./Magnus.js"></script>
+    <script src="./src/petite-vue.iife.js"></script>
+    <script>
+      const inputNameValidation = {
+        paginas(e) {
+          return new MagnusValidator(e).required().numeric().minNumber(5).maxNumber(6);
+        },
+        nombre(e) {
+          return new MagnusValidator(e).required();
+        },
+      };
+      PetiteVue.createApp({
+        inputs: [
+          {
+            name: 'paginas',
+            label: 'Cantidad de páginas',
+            type: 'text',
+            placeholder: '',
+            value: '',
+            small: '',
+            error: '',
+          },
+          {
+            name: 'nombre',
+            label: 'Nombre del autor',
+            type: 'text',
+            placeholder: '',
+            value: '',
+            small: '',
+            error: '',
+          },
+          {
+            name: 'nombre',
+            label: 'Nombre del apellido',
+            type: 'text',
+            placeholder: '',
+            value: '',
+            small: '',
+            error: '',
+          },
+        ],
+
+        checkInput(name, index) {
+          if (!inputNameValidation[name])
+            throw new Error(`Falta especificar la función de validación del input ${name}`);
+          const currentInput = this.inputs[index];
+          const inputState = inputNameValidation[name](currentInput.value);
+          this.inputs[index] = {
+            ...currentInput,
+            error: inputState.errorList.join(' '),
+          };
+        },
+
+        resetForm() {
+          this.inputs = this.inputs.map((i) => ({ ...i, error: '', value: '' }));
+        },
+
+        validateForm() {
+          this.inputs.forEach((inp, i) => this.checkInput(inp.name, i));
+        },
+
+        handleSubmit(e) {
+          this.validateForm();
+          this.$nextTick(function () {
+            const isValid = !document.querySelectorAll('#form .has-error').length;
+            if (isValid) {
+              document.querySelector('#form').submit();
+            }
+          });
+        },
+      }).mount('#form');
+    </script>
+  </body>
+</html>

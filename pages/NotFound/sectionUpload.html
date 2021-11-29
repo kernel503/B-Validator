@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <ul class="nav nav-tabs nav-justified">
+        <li><a href="#">Descripción Documento</a></li>
+        <li class="active"><a href="#">Subir Documento</a></li>
+        <li><a href="#">Información opcional</a></li>
+      </ul>
+      <div class="bg-info">
+        <form action="" x-data="infoSection">
+          <div class="row">
+            <div class="column col-lg-12">
+              <div class="form-group">
+                <label for="arhivos">Agregar documento</label>
+                <input type="file" id="arhivos" multiple />
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <span aria-hidden="true" class="badge">&times;</span>
+                  Nombre del archivo.pdf
+                </li>
+                <li class="list-group-item">
+                  <span aria-hidden="true" class="badge">&times;</span>
+                  Documento2.pdf
+                </li>
+              </ul>
+            </div>
+
+
+
+          <button type="reset" class="btn btn-secondary">Limpiar</button>
+          <button type="button" class="btn btn-primary">Actualizar</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('infoSection', () => ({
+          tituloAlternativo: {
+            text() {
+              return this.tituloAlternativo.show
+                ? 'Nombre alternativo <span class="glyphicon glyphicon-chevron-up"></span>'
+                : 'Nombre alternativo <span class="glyphicon glyphicon-chevron-down"></span>';
+            },
+            show: false,
+            toggle() {
+              this.tituloAlternativo.show = !this.tituloAlternativo.show;
+            },
+          },
+        }));
+      });
+    </script>
+  </body>
+</html>

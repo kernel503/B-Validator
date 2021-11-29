@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Info</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#">Descripción Documento</a></li>
+        <li class="bg-success"><a href="#">Subir Documento</a></li>
+        <li class="bg-success"><a href="#">Información opcional</a></li>
+      </ul>
+      <div>
+        <form action="" x-data="infoSection">
+          <div class="row">
+            <div class="column col-lg-6">
+              <div class="form-group">
+                <label for="titulo">Título del documento *</label>
+                <input type="text" class="form-control" name="titulo" id="titulo" />
+              </div>
+            </div>
+
+            <div class="column col-lg-6">
+              <div class="form-group">
+                <label
+                  for="titulo_alternativo"
+                  x-html="tituloAlternativo.text"
+                  @click="tituloAlternativo.toggle"
+                ></label>
+                <template x-if="tituloAlternativo.show">
+                  <input type="text" class="form-control" name="titulo_alternativo" id="titulo_alternativo" />
+                </template>
+              </div>
+            </div>
+
+            <div class="column col-lg-12">
+              <div class="form-group">
+                <label for="autor" x-html="autor.text" @click="autor.toggle"></label>
+                <template x-if="autor.show">
+                  <input type="text" class="form-control" name="autor" id="autor" />
+                </template>
+              </div>
+            </div>
+
+            <div class="column col-lg-4">
+              <div class="form-group">
+                <label for="descripcion">Tipo de documento *</label>
+                <select class="form-control">
+                  <option selected>Inscripción Extemporánea</option>
+                  <option>Inscripción del PERA</option>
+                  <option>Recuperación Calidad Egresado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="column col-lg-4">
+              <div class="form-group">
+                <label for="numero_acta">Identificador del acta</label>
+                <input type="text" class="form-control" name="numero_acta" id="numero_acta" />
+              </div>
+            </div>
+
+            <div class="column col-lg-4">
+              <div class="form-group">
+                <label for="anio_gestion">Año de gestión</label>
+                <input type="text" class="form-control" name="anio_gestion" id="anio_gestion" />
+              </div>
+            </div>
+
+            <div class="column col-lg-4">
+              <div class="form-group">
+                <label for="fecha_publicacion">Fecha del documento</label>
+                <input type="date" class="form-control" name="fecha_publicacion" id="fecha_publicacion" />
+              </div>
+            </div>
+
+            <div class="column col-lg-12">
+              <div class="form-group">
+                <label for="descripcion" x-html="descripcion.text" @click="descripcion.toggle"></label>
+                <template x-if="descripcion.show">
+                  <textarea class="form-control" rows="3" name="descripcion" id="descripcion"></textarea>
+                </template>
+              </div>
+            </div>
+          </div>
+
+          <button type="reset" class="btn btn-secondary">Limpiar</button>
+          <button type="button" class="btn btn-primary">Agregar</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('infoSection', () => ({
+          tituloAlternativo: {
+            text() {
+              return this.tituloAlternativo.show ? 'Título alternativo' : 'Título alternativo';
+            },
+            show: true,
+            toggle() {
+              this.tituloAlternativo.show = !this.tituloAlternativo.show;
+            },
+          },
+          autor: {
+            text() {
+              return this.autor.show ? 'Autor/es *' : 'Autor/es *';
+            },
+            show: true,
+            toggle() {
+              this.autor.show = !this.autor.show;
+            },
+          },
+          descripcion: {
+            text() {
+              return this.descripcion.show ? 'Descripción ' : 'Descripción';
+            },
+            show: true,
+            toggle() {
+              this.descripcion.show = !this.descripcion.show;
+            },
+          },
+        }));
+      });
+    </script>
+  </body>
+</html>
