@@ -13,7 +13,7 @@
       crossorigin="anonymous"
     />
 
-    <title>Registrar Acta</title>
+    <title>Filtrar Acta</title>
 
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -22,16 +22,17 @@
   </head>
   <body class="bg-light">
     <div class="container-fluid mt-4 px-5">
-      <div class="col-12 col-md-10 offset-1">
+      <div class="col-12 col-md-12">
         <div class="card mb-3">
-          <form action="" @submit.prevent="validateForm" x-data="stepper" x-ref="form">
+          <form action="" @submit.prevent="submitForm" x-data="stepper" x-ref="form">
             <div class="card-body">
-              <h4>Agregar registro de acta 📝</h4>
+              <h4>Filtrar Acta</h4>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4 border-right border-dark">
                   <div class="form-group">
                     <label for="temporada" class="mb-0">Temporada</label>
-                    <select id="temporada" name="temporada">
+
+                    <select id="temporada" name="temporada" multiple>
                       <template x-for="c in catalogo" :key="c.temporada">
                         <option :value="c.temporada" x-text="c.temporada"></option>
                       </template>
@@ -41,9 +42,7 @@
                       <small class="form-text text-danger" x-text="temporada.errorMessage"></small>
                     </template>
                   </div>
-                </div>
 
-                <div class="col-md-6">
                   <div class="form-group">
                     <label for="numero_acta" class="mb-0">Número de acta</label>
                     <input
@@ -53,45 +52,18 @@
                       name="numero_acta"
                       id="numero_acta"
                       x-model="numero_acta.value"
-                      @keyup="handleOnChange"
                     />
                     <small class="form-text text-muted">El identificador del acta.</small>
                     <template x-if="numero_acta.hasError">
                       <small class="form-text text-danger" x-text="numero_acta.errorMessage"></small>
                     </template>
+                    <button type="button" class="btn btn-dark mt-4" @click="resetForm">Limpiar</button>
+                    <button type="submit" class="btn btn-primary mt-4">Buscar</button>
                   </div>
                 </div>
 
-                <div class="col-md-12">
-                  <div class="custom-file">
-                    <input
-                      type="file"
-                      id="archivos"
-                      class="custom-file-input"
-                      lang="es"
-                      multiple
-                      name="archivos"
-                      @blur="handleOnChange"
-                      :class="archivos.hasError && 'is-invalid'"
-                    />
-                    <label class="custom-file-label" for="archivos">Seleccionar Archivo</label>
-                  </div>
-
-                  <template x-if="archivos.hasError">
-                    <small class="form-text text-danger" x-text="archivos.errorMessage"></small>
-                  </template>
-                  <ul class="list-group list-group-flush my-3">
-                    <template x-for="(file) in archivos.value">
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span x-text="file"></span>
-                      </li>
-                    </template>
-                  </ul>
-                </div>
+                <div class="col-md-8">Filtrado</div>
               </div>
-
-              <button type="button" class="btn btn-dark" @click="resetForm">Cancelar</button>
-              <button type="submit" class="btn btn-primary">Almacenar</button>
             </div>
           </form>
         </div>
@@ -128,16 +100,19 @@
       },
     ];
 
+    let isValidForm = false;
+    let selectTemporada = null;
+
     $(document).ready(function () {
       window.selectedInputTemporada = $('#temporada')
         .select2({ width: '100%', placeholder: 'Seleccionar una temporada' })
         .val('')
         .trigger('change');
+
+      selectTemporada = document.querySelector('[aria-labelledby="select2-temporada-container"]');
     });
 
     document.addEventListener('alpine:init', () => {
-      let isValidForm = false;
-
       Alpine.data('stepper', () => ({
         catalogo,
         fileList: [],
@@ -157,77 +132,53 @@
           }, 500),
         },
 
-        archivos: {
-          value: [],
-          hasError: false,
-          errorMessage: 'Debe agregar al menos un documento.',
-          validation(e) {
-            this.hasError = false;
-            const files = e.target.files;
-            this.value = [];
-
-            for (let i = 0; i < files.length; i++) {
-              this.value.push(files.item(i).name);
-            }
-
-            if (files.length === 0) {
-              isValidForm = false;
-              this.hasError = true;
-            }
-          },
-        },
-
         temporada: {
           hasError: false,
           errorMessage: 'Debe seleccionar una temporada.',
           validation(e) {
             const value = window.selectedInputTemporada.val();
-            const spanSelect = document.querySelector('.select2-selection.select2-selection--single');
+            selectTemporada.style.border = '1px solid #aaa';
 
-            spanSelect.style.border = '1px solid #aaa';
             if (value === null || value === undefined) {
               isValidForm = false;
               this.hasError = true;
-              spanSelect.style.border = '1px solid #dc3545';
+              selectTemporada.style.border = '1px solid #dc3545';
             }
           },
         },
 
+        submitForm() {
+          console.log('hi');
+          console.log(this.$refs.form);
+          const formData = new FormData(this.$refs.form);
+          console.log(formData);
+          for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+          }
+        },
         validateForm() {
           isValidForm = true;
 
-          this.numero_acta.validation();
-          this.numero_acta.validation.flush();
+          // this.numero_acta.validation();
+          // this.numero_acta.validation.flush();
 
-          this.temporada.validation();
+          // this.temporada.validation();
 
-          if (this.archivos.value.length === 0) {
-            this.archivos.hasError = true;
-          }
-
-          if (isValidForm) {
-            this.$refs.form.submit();
-          } else {
-            console.log('SnackBar Error');
-          }
+          // if (isValidForm) {
+          //   this.$refs.form.submit();
+          // } else {
+          //   console.log('SnackBar Error');
+          // }
         },
 
         resetForm() {
           this.numero_acta.value = '';
           this.numero_acta.hasError = false;
 
-          this.archivos.value = [];
-          this.archivos.hasError = false;
-
           window.selectedInputTemporada.val('').trigger('change');
           this.temporada.hasError = false;
-          const spanSelect = document.querySelector('.select2-selection.select2-selection--single');
-          spanSelect.style.border = '1px solid #aaa';
-        },
 
-        handleOnChange(e) {
-          const inputName = e.target.name;
-          let result = this[inputName].validation(e);
+          selectTemporada.style.border = '1px solid #aaa';
         },
       }));
     });
