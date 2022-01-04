@@ -3,10 +3,7 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
     <link
@@ -33,12 +30,7 @@
     <div class="container-fluid mt-4 px-5">
       <div class="col-12 col-md-10 offset-1">
         <div class="card mb-3">
-          <form
-            action=""
-            @submit.prevent="validateForm"
-            x-data="stepper"
-            x-ref="form"
-          >
+          <form action="" @submit.prevent="validateForm" x-data="stepper" x-ref="form">
             <div class="card-body">
               <h4>Agregar registro de acta 📝</h4>
               <div class="row">
@@ -47,20 +39,12 @@
                     <label for="temporada" class="mb-0">Temporada</label>
                     <select id="temporada" name="temporada">
                       <template x-for="c in catalogo" :key="c.temporada">
-                        <option
-                          :value="c.temporada"
-                          x-text="c.temporada"
-                        ></option>
+                        <option :value="c.temporada" x-text="c.temporada"></option>
                       </template>
                     </select>
-                    <small class="form-text text-muted"
-                      >Temporada de gestión.</small
-                    >
+                    <small class="form-text text-muted">Temporada de gestión.</small>
                     <template x-if="temporada.hasError">
-                      <small
-                        class="form-text text-danger"
-                        x-text="temporada.errorMessage"
-                      ></small>
+                      <small class="form-text text-danger" x-text="temporada.errorMessage"></small>
                     </template>
                   </div>
                 </div>
@@ -77,9 +61,7 @@
                       x-model="numero_acta.value"
                       @keyup="handleOnChange"
                     />
-                    <small class="form-text text-muted"
-                      >El identificador del acta.</small
-                    >
+                    <small class="form-text text-muted">El identificador del acta.</small>
                     <template x-if="numero_acta.hasError">
                       <small
                         class="form-text text-danger"
@@ -101,22 +83,15 @@
                       @blur="handleOnChange"
                       :class="archivos.hasError && 'is-invalid'"
                     />
-                    <label class="custom-file-label" for="archivos"
-                      >Seleccionar Archivo</label
-                    >
+                    <label class="custom-file-label" for="archivos">Seleccionar Archivo</label>
                   </div>
 
                   <template x-if="archivos.hasError">
-                    <small
-                      class="form-text text-danger"
-                      x-text="archivos.errorMessage"
-                    ></small>
+                    <small class="form-text text-danger" x-text="archivos.errorMessage"></small>
                   </template>
                   <ul class="list-group list-group-flush my-3">
                     <template x-for="(file) in archivos.value">
-                      <li
-                        class="list-group-item d-flex justify-content-between align-items-center"
-                      >
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span x-text="file"></span>
                       </li>
                     </template>
@@ -124,9 +99,7 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-dark" @click="resetForm">
-                Cancelar
-              </button>
+              <button type="button" class="btn btn-dark" @click="resetForm">Cancelar</button>
               <button type="submit" class="btn btn-primary">Almacenar</button>
             </div>
           </form>
@@ -150,9 +123,7 @@
   </body>
 
   <script>
-    const errorFormulario = [
-      { name: 'identificador', mensaje: 'No debe ser vacio' },
-    ];
+    const errorFormulario = [{ name: 'identificador', mensaje: 'No debe ser vacio' }];
 
     const catalogo = [
       {
@@ -264,9 +235,7 @@
 
           window.selectedInputTemporada.val('').trigger('change');
           this.temporada.hasError = false;
-          const spanSelect = document.querySelector(
-            '.select2-selection.select2-selection--single'
-          );
+          const spanSelect = document.querySelector('.select2-selection.select2-selection--single');
           spanSelect.style.border = '1px solid #aaa';
         },
 

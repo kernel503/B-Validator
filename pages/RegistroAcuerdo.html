@@ -15,8 +15,14 @@
 
     <title>Stepper</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
 
     <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
   </head>
@@ -46,13 +52,22 @@
       <div class="row">
         <div class="col-6 col-md-2">
           <div class="list-group mb-1">
-            <a @click="currentStep = 1" class="list-group-item list-group-item-action" :class="itemHasClassActive(1)"
+            <a
+              @click="currentStep = 1"
+              class="list-group-item list-group-item-action"
+              :class="itemHasClassActive(1)"
               >Describir documento</a
             >
-            <a @click="currentStep = 2" class="list-group-item list-group-item-action" :class="itemHasClassActive(2)"
+            <a
+              @click="currentStep = 2"
+              class="list-group-item list-group-item-action"
+              :class="itemHasClassActive(2)"
               >Agregar documento</a
             >
-            <a @click="currentStep = 3" class="list-group-item list-group-item-action" :class="itemHasClassActive(3)"
+            <a
+              @click="currentStep = 3"
+              class="list-group-item list-group-item-action"
+              :class="itemHasClassActive(3)"
               >Información adicional</a
             >
           </div>
@@ -67,15 +82,24 @@
                     <div class="form-group">
                       <label for="titulo">Título del documento *</label>
                       <input type="text" class="form-control" name="titulo" id="titulo" />
-                      <small class="form-text text-muted">Nombre con que se conoce formalmente el documento.</small>
+                      <small class="form-text text-muted"
+                        >Nombre con que se conoce formalmente el documento.</small
+                      >
                     </div>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="tititulo_alternativotulo">Título alternativo *</label>
-                      <input type="text" class="form-control" name="titulo_alternativo" id="titulo_alternativo" />
-                      <small class="form-text text-muted">Nombre alternativo al título formal.</small>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="titulo_alternativo"
+                        id="titulo_alternativo"
+                      />
+                      <small class="form-text text-muted"
+                        >Nombre alternativo al título formal.</small
+                      >
                     </div>
                   </div>
 
@@ -93,22 +117,36 @@
                     <div class="form-group">
                       <label for="autor">Número de sesión (acta)</label>
                       <input type="text" class="form-control" name="autor" id="autor" />
-                      <small class="form-text text-muted">Número relacionado a lo acordado en junta.</small>
+                      <small class="form-text text-muted"
+                        >Número relacionado a lo acordado en junta.</small
+                      >
                     </div>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="fecha_publicacion">Fecha de publicación *</label>
-                      <input type="text" class="form-control" name="fecha_publicacion" id="fecha_publicacion" />
-                      <small class="form-text text-muted">Fecha en que se envió el documento.</small>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="fecha_publicacion"
+                        id="fecha_publicacion"
+                      />
+                      <small class="form-text text-muted"
+                        >Fecha en que se envió el documento.</small
+                      >
                     </div>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="anio_gestion">Año de gestión *</label>
-                      <input type="text" class="form-control" name="anio_gestion" id="anio_gestion" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="anio_gestion"
+                        id="anio_gestion"
+                      />
                       <small class="form-text text-muted"></small>
                     </div>
                   </div>
@@ -155,11 +193,15 @@
                           </template>
                         </select>
                       </div>
-                      <small class="form-text text-muted">Nombre de la unidad de donde proviene el documento.</small>
+                      <small class="form-text text-muted"
+                        >Nombre de la unidad de donde proviene el documento.</small
+                      >
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-dark" @click="currentStep = 2">Siguiente</button>
+                <button type="button" class="btn btn-dark" @click="currentStep = 2">
+                  Siguiente
+                </button>
               </div>
 
               <div class="card-body" x-show="currentStep === 2">
@@ -184,7 +226,9 @@
                     </li>
                   </template>
                 </ul>
-                <button type="button" class="btn btn-dark" @click="currentStep = 3">Siguiente</button>
+                <button type="button" class="btn btn-dark" @click="currentStep = 3">
+                  Siguiente
+                </button>
               </div>
 
               <div class="card-body" x-show="currentStep === 3">
@@ -194,7 +238,12 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="colaboradores" class="mb-0">Colaboradores</label>
-                      <input type="text" class="form-control" name="colaboradores" id="colaboradores" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="colaboradores"
+                        id="colaboradores"
+                      />
                       <!-- <small class="form-text text-muted"> Presionar Enter para agregar.</small>
                       <div>
                         <select id="colaboradores" name="colaboradores" multiple></select>
@@ -208,7 +257,12 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="beneficiarios" class="mb-0">Beneficiarios</label>
-                      <input type="text" class="form-control" name="beneficiarios" id="beneficiarios" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="beneficiarios"
+                        id="beneficiarios"
+                      />
                       <!-- <small class="form-text text-muted"> Presionar Enter para agregar.</small>
                       <div>
                         <select id="beneficiarios" name="beneficiarios" multiple></select>
@@ -226,7 +280,9 @@
                       <div>
                         <select id="etiquetas" name="etiquetas" multiple></select>
                       </div>
-                      <small class="form-text text-muted">Palabras clave del autor o del documento.</small>
+                      <small class="form-text text-muted"
+                        >Palabras clave del autor o del documento.</small
+                      >
                     </div>
                   </div>
 
@@ -240,7 +296,9 @@
                           </template>
                         </select>
                       </div>
-                      <small class="form-text text-muted">El idioma del contenido intelectual.</small>
+                      <small class="form-text text-muted"
+                        >El idioma del contenido intelectual.</small
+                      >
                     </div>
                   </div>
 
@@ -248,10 +306,15 @@
                     <div class="form-group">
                       <label for="resumen" class="mb-0">Tema</label>
                       <small class="form-text text-muted">
-                        El tema del material generalmente son expresadas a través de las palabras clave o frases que
-                        describen el tema o contenido del material.
+                        El tema del material generalmente son expresadas a través de las palabras
+                        clave o frases que describen el tema o contenido del material.
                       </small>
-                      <textarea class="form-control" id="resumen" name="resumen" rows="3"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="resumen"
+                        name="resumen"
+                        rows="3"
+                      ></textarea>
                     </div>
                   </div>
 
@@ -261,23 +324,42 @@
                       <small class="form-text text-muted">
                         Una descripción textual del contenido del material, incluyendo resúmenes.
                       </small>
-                      <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="descripcion"
+                        name="descripcion"
+                        rows="3"
+                      ></textarea>
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="derechos" class="mb-0">Derechos</label>
-                      <small class="form-text text-muted"> Referencia sobre derecho de autor.</small>
-                      <textarea class="form-control" id="derechos" name="derechos" rows="3"></textarea>
+                      <small class="form-text text-muted">
+                        Referencia sobre derecho de autor.</small
+                      >
+                      <textarea
+                        class="form-control"
+                        id="derechos"
+                        name="derechos"
+                        rows="3"
+                      ></textarea>
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="comentario" class="mb-0">Comentario</label>
-                      <small class="form-text text-muted">Texto para descripbir el documento y su uso. </small>
-                      <textarea class="form-control" id="comentario" name="comentario" rows="3"></textarea>
+                      <small class="form-text text-muted"
+                        >Texto para descripbir el documento y su uso.
+                      </small>
+                      <textarea
+                        class="form-control"
+                        id="comentario"
+                        name="comentario"
+                        rows="3"
+                      ></textarea>
                     </div>
                   </div>
                 </div>
@@ -427,7 +509,12 @@
     ];
 
     //http://www3.uji.es/~aramburu/j42/docs/teoria/tema4.pdf
-    const tipoDocumentos = ['Documento textual', 'Documento no textual', 'Documentos multimendia', 'Hipertextos'];
+    const tipoDocumentos = [
+      'Documento textual',
+      'Documento no textual',
+      'Documentos multimendia',
+      'Hipertextos',
+    ];
     const unidades = ['Junta Directiva', 'Unidad Financiera'];
 
     const listadoIdioma = ['Español', 'Inglés', 'Portugués', 'Ruso', 'Japonés'];
