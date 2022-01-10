@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Leaflet.MovingMarker Demo Page</title>
+
+    <!-- META INFORMATION -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Leaflet plugin to animate marker !" />
+    <meta
+      name="keywords"
+      content="Leaflet MovingMarker marker ewoken github animation" />
+    <meta name="author" content="Ewoken" />
+
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="http://ewoken.github.io/Leaflet.MovingMarker/style.css" />
+  </head>
+
+  <body>
+    <main>
+      <h1>Demo of Leaflet.MovingMarker</h1>
+
+      <section>
+        <div id="map"></div>
+      </section>
+    </main>
+
+    <script
+      type="text/javascript"
+      src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <script
+      type="text/javascript"
+      src="http://ewoken.github.io/Leaflet.MovingMarker/MovingMarker.js"></script>
+
+    <!-- <script
+      type="text/javascript"
+      src="http://ewoken.github.io/Leaflet.MovingMarker/script.js"></script> -->
+
+    <script type="text/javascript">
+      // initialize the map on the "map" div with a given center and zoom
+      var map = new L.Map('map', {
+        center: new L.LatLng(45.19147011, 5.71453741),
+        zoom: 6,
+        minZoom: 1,
+      });
+
+      // create a new tile layer
+      var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        layer = new L.TileLayer(tileUrl, {
+          attribution:
+            'Maps © <a href="www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 18,
+        });
+
+      map.addLayer(layer);
+
+      var londonParisRomeBerlinBucarest = [
+        [51.507222, -0.1275],
+        [48.8567, 2.3508],
+        [41.9, 12.5],
+        [52.516667, 13.383333],
+        [44.4166, 26.1],
+      ];
+
+      var marker2 = L.Marker.movingMarker(
+        londonParisRomeBerlinBucarest,
+        // [10, 10, 10, 10],
+        [10],
+        { autostart: true }
+      ).addTo(map);
+
+      L.polyline(londonParisRomeBerlinBucarest, { color: 'red' }).addTo(map);
+
+      map.fitBounds(londonParisRomeBerlinBucarest);
+
+      marker2.on('end', function () {
+        marker2
+          .bindPopup(
+            '<b>Welcome to Bucarest !</b><br>GitHub Page: <a target="_blank" href="https://github.com/ewoken/Leaflet.MovingMarker">GitHub</a>',
+            { closeOnClick: false }
+          )
+          .openPopup();
+      });
+
+      /*
+a.on('end', function() {
+    a.start();
+});*/
+    </script>
+  </body>
+</html>

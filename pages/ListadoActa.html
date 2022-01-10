@@ -3,21 +3,21 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous" />
 
     <title>Repositorio Acta</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" />
     <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
     <style>
       .maxsize {
@@ -38,27 +38,26 @@
             type="text"
             class="form-control mt-1"
             placeholder="Buscar"
-            x-model="inputBusqueda"
-          />
+            x-model="inputBusqueda" />
 
           <template x-for="temporada in catalogoFiltrado">
             <div class="card mt-2">
               <div
                 class="card-header bg-dark text-white d-flex justify-content-between align-items-center"
-                @click="temporada.isOpen = !temporada.isOpen"
-              >
+                @click="temporada.isOpen = !temporada.isOpen">
                 <p x-text="temporada.temporada" class="my-0"></p>
                 <i
-                  :class="temporada.isOpen ? 'bi bi-chevron-compact-up':'bi bi-chevron-compact-down'"
-                ></i>
+                  :class="temporada.isOpen ? 'bi bi-chevron-compact-up':'bi bi-chevron-compact-down'"></i>
               </div>
-              <ul class="list-group list-group-flush" x-show="temporada.isOpen" x-transition>
+              <ul
+                class="list-group list-group-flush"
+                x-show="temporada.isOpen"
+                x-transition>
                 <template x-for="acta in temporada.actas" :key="acta">
                   <li
                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                     x-text="acta"
-                    @click="cargarContenedor(acta)"
-                  ></li>
+                    @click="cargarContenedor(acta)"></li>
                 </template>
               </ul>
             </div>
@@ -67,7 +66,10 @@
 
         <div class="col-6 col-sm-6 col-md-8">
           <p class="h3" x-text="idCategoria">h3. Bootstrap heading</p>
-          <div x-html="acuerdoContenedor.data" x-show="acuerdoContenedor.show" x-transition></div>
+          <div
+            x-html="acuerdoContenedor.data"
+            x-show="acuerdoContenedor.show"
+            x-transition></div>
         </div>
       </div>
 
@@ -76,13 +78,16 @@
         class="modal fade bd-example-modal-lg"
         tabindex="-1"
         role="dialog"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Identificador de documento</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -147,7 +152,9 @@
 
           const categoriaFiltrada = [];
           this.catalogo.forEach(({ temporada, actas }) => {
-            const matchCatalogo = actas.filter((nombre) => nombre.match(new RegExp(input, 'i')));
+            const matchCatalogo = actas.filter((nombre) =>
+              nombre.match(new RegExp(input, 'i'))
+            );
             if (matchCatalogo.length) {
               categoriaFiltrada.push({
                 temporada,

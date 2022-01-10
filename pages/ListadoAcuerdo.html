@@ -3,21 +3,21 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous" />
 
     <title>Repositorio Acuerdo</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css" />
     <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
     <style>
       .maxsize {
@@ -38,25 +38,26 @@
             type="text"
             class="form-control mt-1"
             placeholder="Buscar"
-            x-model="inputBusqueda"
-          />
+            x-model="inputBusqueda" />
 
           <template x-for="c in catalogoFiltrado">
             <div class="card mt-2">
               <div
                 class="card-header bg-dark text-white d-flex justify-content-between align-items-center"
-                @click="c.isOpen = !c.isOpen"
-              >
+                @click="c.isOpen = !c.isOpen">
                 <p x-text="c.categoria" class="my-0"></p>
-                <i :class="c.isOpen ? 'bi bi-chevron-compact-up':'bi bi-chevron-compact-down'"></i>
+                <i
+                  :class="c.isOpen ? 'bi bi-chevron-compact-up':'bi bi-chevron-compact-down'"></i>
               </div>
-              <ul class="list-group list-group-flush" x-show="c.isOpen" x-transition>
+              <ul
+                class="list-group list-group-flush"
+                x-show="c.isOpen"
+                x-transition>
                 <template x-for="asunto in c.detalle" :key="asunto.nombre">
                   <li
                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                     x-html="asunto.html"
-                    @click="cargarContenedor(asunto.nombre)"
-                  ></li>
+                    @click="cargarContenedor(asunto.nombre)"></li>
                 </template>
               </ul>
             </div>
@@ -64,7 +65,10 @@
         </div>
         <div class="col-6 col-sm-6 col-md-8">
           <p class="h3" x-text="idCategoria">h3. Bootstrap heading</p>
-          <div x-html="acuerdoContenedor.data" x-show="acuerdoContenedor.show" x-transition></div>
+          <div
+            x-html="acuerdoContenedor.data"
+            x-show="acuerdoContenedor.show"
+            x-transition></div>
         </div>
       </div>
 
@@ -73,13 +77,16 @@
         class="modal fade bd-example-modal-lg"
         tabindex="-1"
         role="dialog"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">Identificador de documento</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -197,7 +204,10 @@
       },
       {
         categoria: 'Denuncias',
-        asuntos: ['Apertura Informativo Administrativo Disciplinario', 'Audiencia Única'],
+        asuntos: [
+          'Apertura Informativo Administrativo Disciplinario',
+          'Audiencia Única',
+        ],
       },
     ];
 
@@ -223,7 +233,9 @@
         cargarContenedor(value) {
           this.idCategoria = value;
           this.acuerdoContenedor = { show: false, data: '', loading: true };
-          fetch('http://127.0.0.1:8080/pages/components/informacionAcuerdo.html')
+          fetch(
+            'http://127.0.0.1:8080/pages/components/informacionAcuerdo.html'
+          )
             .then((response) => {
               return response.text();
             })

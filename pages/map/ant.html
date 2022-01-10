@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="map" style="height: 100vh"></div>
+  </body>
+  <script src="https://unpkg.com/leaflet" type="text/javascript"></script>
+  <script
+    src="https://unpkg.com/leaflet-ant-path"
+    type="text/javascript"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      const route = [
+        [-3.65358, -38.71431],
+        [-3.66402, -38.71528],
+        [-3.66861, -38.71573],
+        [-3.66929, -38.71577],
+        [-3.67117, -38.71592],
+        [-3.67326, -38.71613],
+        [-3.67354, -38.71617],
+        [-3.67493, -38.7165],
+      ];
+
+      const path = L.polyline.antPath(route, {
+        delay: 400,
+        dashArray: [10, 20],
+        weight: 5,
+        color: '#0000FF',
+        pulseColor: '#FFFFFF',
+        paused: false,
+        reverse: false,
+        hardwareAccelerated: true,
+      });
+      const myMap = L.map('map').setView([0, 0], 13);
+
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      myMap.addLayer(path);
+      myMap.fitBounds(path.getBounds());
+    });
+  </script>
+</html>
