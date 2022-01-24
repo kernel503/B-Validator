@@ -25,8 +25,11 @@
       href="https://cdn.datatables.net/v/bs/dt-1.11.3/r-2.2.9/datatables.min.css"
     />
 
-    <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
+    <script src="../../src/alpinejs@3.4.2.cdn.min.js" defer></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/v/bs/dt-1.11.3/r-2.2.9/datatables.min.js"
+    ></script>
   </head>
   <body>
     <div class="container pt-3">
@@ -42,7 +45,12 @@
 
           <template x-if="$store.list.currentIndex !== -1">
             <template x-for="(input) in inputsPK">
-              <input :type="input.type" :id="input.name" :name="input.name" x-model="input.value" />
+              <input
+                :type="input.type"
+                :id="input.name"
+                :name="input.name"
+                x-model="input.value"
+              />
             </template>
           </template>
 
@@ -53,7 +61,11 @@
                 :class="{'has-error' : input.error, [input.class] : input.class}"
                 x-show="input.type !== 'hidden'"
               >
-                <label class="control-label" :for="input.name" x-text="input.label||input.name"></label>
+                <label
+                  class="control-label"
+                  :for="input.name"
+                  x-text="input.label||input.name"
+                ></label>
                 <input
                   :type="input.type"
                   class="form-control"
@@ -64,7 +76,10 @@
                   @blur="checkInput(i)"
                 />
                 <template x-if="input.small">
-                  <small class="form-text control-label" x-text="input.smal"></small>
+                  <small
+                    class="form-text control-label"
+                    x-text="input.smal"
+                  ></small>
                 </template>
                 <template x-if="input.error">
                   <span class="help-block" x-text="input.error"></span>
@@ -74,8 +89,14 @@
           </div>
           <div class="row">
             <div class="col-lg-6">
-              <button type="button" class="btn btn-default" @click="resetForm">Cancelar</button>
-              <button type="submit" class="btn btn-primary" x-text="getNameSubmitBtn"></button>
+              <button type="button" class="btn btn-default" @click="resetForm">
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                x-text="getNameSubmitBtn"
+              ></button>
             </div>
           </div>
         </form>
@@ -90,19 +111,24 @@
         ></table>
       </div>
     </div>
-    <script src="../src/CustomFormDataTable.js"></script>
+    <script src="../../src/CustomFormDataTable.js"></script>
     <script>
       const headers = [
-        { title: 'Código', data: 'codigo' },
-        { title: 'Nombre del pais', data: 'nombre' },
-        { title: 'Año', data: 'anio', orderable: false, searchable: false },
-        { title: 'Genero más afectado', data: 'mayoria', orderable: false, searchable: false },
-        { title: 'Total en el año', data: 'total' },
-        { title: 'Hombres muertos', data: 'hombres' },
-        { title: 'Mujeres muertas', data: 'mujeres' },
+        { title: "Código", data: "codigo" },
+        { title: "Nombre del pais", data: "nombre" },
+        { title: "Año", data: "anio", orderable: false, searchable: false },
         {
-          title: 'Acciones',
-          data: 'indexMap',
+          title: "Genero más afectado",
+          data: "mayoria",
+          orderable: false,
+          searchable: false,
+        },
+        { title: "Total en el año", data: "total" },
+        { title: "Hombres muertos", data: "hombres" },
+        { title: "Mujeres muertas", data: "mujeres" },
+        {
+          title: "Acciones",
+          data: "indexMap",
           orderable: false,
           searchable: false,
           render(data, type, row) {
@@ -119,143 +145,143 @@
 
       const data = [
         {
-          codigo: 'AFG',
-          nombre: 'Afghanistan',
-          anio: '2000',
+          codigo: "AFG",
+          nombre: "Afghanistan",
+          anio: "2000",
           hombres: 169558,
           mujeres: 165558,
           total: 335116,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'AGO',
-          nombre: 'Angola',
-          anio: '2003',
+          codigo: "AGO",
+          nombre: "Angola",
+          anio: "2003",
           hombres: 112147,
           mujeres: 89589,
           total: 201736,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'ALB',
-          nombre: 'Albania',
-          anio: '2012',
+          codigo: "ALB",
+          nombre: "Albania",
+          anio: "2012",
           hombres: 13003,
           mujeres: 9656,
           total: 22659,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'AND',
-          nombre: 'Andorra',
-          anio: '2010',
+          codigo: "AND",
+          nombre: "Andorra",
+          anio: "2010",
           hombres: 365,
           mujeres: 387,
           total: 752,
-          mayoria: 'Mujeres',
+          mayoria: "Mujeres",
         },
         {
-          codigo: 'ARE',
-          nombre: 'United Arab Emirates',
-          anio: '2010',
+          codigo: "ARE",
+          nombre: "United Arab Emirates",
+          anio: "2010",
           hombres: 10359,
           mujeres: 2774,
           total: 13133,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'ARG',
-          nombre: 'Argentina',
-          anio: '2020',
+          codigo: "ARG",
+          nombre: "Argentina",
+          anio: "2020",
           hombres: 159504,
           mujeres: 146949,
           total: 306453,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'ARM',
-          nombre: 'Armenia',
-          anio: '2013',
+          codigo: "ARM",
+          nombre: "Armenia",
+          anio: "2013",
           hombres: 15547,
           mujeres: 12640,
           total: 28187,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'ATG',
-          nombre: 'Antigua and Barbuda',
-          anio: '2012',
+          codigo: "ATG",
+          nombre: "Antigua and Barbuda",
+          anio: "2012",
           hombres: 282,
           mujeres: 238,
           total: 520,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'AUS',
-          nombre: 'Australia',
-          anio: '2011',
+          codigo: "AUS",
+          nombre: "Australia",
+          anio: "2011",
           hombres: 79579,
           mujeres: 74986,
           total: 154565,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'AUSS',
-          nombre: 'Australia',
-          anio: '2011',
+          codigo: "AUSS",
+          nombre: "Australia",
+          anio: "2011",
           hombres: 79579,
           mujeres: 74986,
           total: 154565,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
         {
-          codigo: 'AAAA',
-          nombre: 'Australia',
-          anio: '2011',
+          codigo: "AAAA",
+          nombre: "Australia",
+          anio: "2011",
           hombres: 79579,
           mujeres: 74986,
           total: 154565,
-          mayoria: 'Hombres',
+          mayoria: "Hombres",
         },
       ].map((e, i) => ({ ...e, indexMap: i }));
 
       const form = {
-        title: 'Gestionar Personal',
-        _token: 'AAAÑÑÑLLLSSSKKKDDD',
+        title: "Gestionar Personal",
+        _token: "AAAÑÑÑLLLSSSKKKDDD",
         inputsPK: [
           {
-            type: 'hidden',
-            name: 'codigo',
+            type: "hidden",
+            name: "codigo",
           },
         ],
         inputs: [
           {
-            name: 'nombre',
-            label: 'Nombre del país',
-            type: 'text',
-            class: 'col-lg-6',
+            name: "nombre",
+            label: "Nombre del país",
+            type: "text",
+            class: "col-lg-6",
           },
           {
-            label: 'Genero más afectado',
-            name: 'mayoria',
-            type: 'text',
-            class: 'col-lg-6',
+            label: "Genero más afectado",
+            name: "mayoria",
+            type: "text",
+            class: "col-lg-6",
             validator(e) {
               return new MagnusValidator(e).required();
             },
           },
           {
-            label: 'Hombres muertos',
-            name: 'hombres',
-            type: 'text',
+            label: "Hombres muertos",
+            name: "hombres",
+            type: "text",
             validator(e) {
               return new MagnusValidator(e).required().numeric();
             },
           },
           {
-            label: 'Mujeres muertas',
-            name: 'mujeres',
-            type: 'text',
+            label: "Mujeres muertas",
+            name: "mujeres",
+            type: "text",
             validator(e) {
               return new MagnusValidator(e).required().numeric();
             },

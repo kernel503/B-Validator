@@ -7,88 +7,189 @@
     <title>Acuerdos</title>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" />
+      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
 
     <script
+      defer
       src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-      defer></script>
+    ></script>
 
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"></script>
+      referrerpolicy="no-referrer"
+    ></script>
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-      crossorigin="anonymous" />
+      crossorigin="anonymous"
+    />
     <link
       rel="stylesheet"
       type="text/css"
-      href="https://cdn.datatables.net/v/bs/jq-3.6.0/dt-1.11.3/r-2.2.9/datatables.min.css" />
+      href="https://cdn.datatables.net/v/bs/jq-3.6.0/dt-1.11.3/r-2.2.9/datatables.min.css"
+    />
 
     <script
       type="text/javascript"
-      src="https://cdn.datatables.net/v/bs/jq-3.6.0/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
+      src="https://cdn.datatables.net/v/bs/jq-3.6.0/dt-1.11.3/r-2.2.9/datatables.min.js"
+    ></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
-    <div class="container-fluid">
-      <table
-        id="table"
-        class="table table-striped table-bordered dt-responsive nowrap"
-        style="width: 100%"></table>
+    <div class="container" x-data="form">
+      <div style="margin-top: 10px">
+        <div class="row">
+          <div class="col-lg-12">
+            <h4>Administrar Catalogo</h4>
+          </div>
+        </div>
+
+        <form
+          :action="baseURLCreateOrUpdate"
+          x-show="isCreateOrUpdateForm"
+          @submit.prevent="handleSubmit"
+          x-ref="createForm"
+        >
+          <input type="hidden" name="_token" x-model="_token" />
+          <input type="hidden" name="id" x-model="formData.id" />
+
+          <div class="row">
+            <div class="col col-lg-6">
+              <div class="form-group" :class="{'has-error' : formAlert.nombre}">
+                <label class="control-label" for="nombre">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nombre"
+                  x-model="formData.nombre"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-lg-6">
+              <div class="form-group">
+                <label class="control-label" for="nombre">Descripción</label>
+                <textarea
+                  class="form-control"
+                  rows="3"
+                  name="descripcion"
+                  x-model="formData.descripcion"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <button
+                type="reset"
+                class="btn btn-default"
+                @click="resetAlertValidation"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </div>
+        </form>
+
+        <form
+          :action="baseURLDelete"
+          style="margin-top: 20px"
+          x-show="!isCreateOrUpdateForm"
+        >
+          <input type="hidden" name="_token" x-model="_token" />
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="alert alert-danger" role="alert">
+                Confirmación para eliminar el registro
+                <strong x-text="formData.nombre"></strong>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <button
+                type="button"
+                class="btn btn-default"
+                @click="isCreateOrUpdateForm = true"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-danger">Eliminar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div style="margin-top: 20px">
+        <table
+          id="table"
+          class="table table-striped table-bordered dt-responsive nowrap"
+          style="width: 100%"
+        ></table>
+      </div>
     </div>
 
     <script>
+      const _token = "";
+      const baseURLCreateOrUpdate = "";
+      const baseURLDelete = "";
+
       const response = {
         datos: [
           {
             id: 1,
-            nombre: 'Speothos vanaticus',
+            nombre: "Speothos vanaticus",
             descripcion: null,
             acciones: null,
           },
           {
             id: 2,
-            nombre: 'Sciurus vulgaris',
+            nombre: "Sciurus vulgaris",
             descripcion: null,
             acciones: null,
           },
           {
             id: 3,
-            nombre: 'Ursus americanus',
+            nombre: "Ursus americanus",
             descripcion: null,
             acciones: null,
           },
           {
             id: 4,
-            nombre: 'Suricata suricatta',
+            nombre: "Suricata suricatta",
             descripcion: null,
             acciones: null,
           },
           {
             id: 5,
-            nombre: 'Melursus ursinus',
+            nombre: "Melursus ursinus",
             descripcion: null,
             acciones: null,
           },
         ],
         notificacion: {
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
         },
-        formulario: [
-          { name: 'id', value: '-1', mensaje: 'Debe ser mayor que cero' },
-          { name: 'nombre', value: '-1', mensaje: 'Debe ser mayor que cero' },
+        formDateWithError: [
+          { name: "id", value: "-1", mensaje: "Debe ser mayor que cero" },
+          { name: "nombre", value: "-1", mensaje: "Debe ser mayor que cero" },
           {
-            name: 'descripcion',
-            value: 'A',
-            mensaje: 'Error',
+            name: "descripcion",
+            value: "A",
+            mensaje: "Error",
           },
         ],
       };
@@ -109,23 +210,105 @@
         return [columns, columnDefs];
       }
 
-      $(document).ready(function () {
+      // $(document).ready(function () {
+      //   const headers = [
+      //     { title: "ID", data: "id" },
+      //     { title: "Nombre", data: "nombre" },
+      //     { title: "Descripición", data: "descripcion" },
+      //     {
+      //       title: "Acciones",
+      //       data: "acciones",
+      //       render(data, type, row) {
+      //         const editBtn = `<button class="btn  btn-default btn-sm" type="button" @click="$store.list.changeId(${data})">
+      //           <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+      //           </button>`;
+      //         const deleteBtn = ` <button class="btn btn-danger btn-sm" type="button">
+      //         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      //         </button>`;
+      //         return editBtn + deleteBtn;
+      //       },
+      //     },
+      //   ];
+
+      //   const [columns, columnDefs] = initialConfigDataTable(headers);
+
+      //   new DataTable("#table", {
+      //     processing: true,
+      //     deferRender: true,
+      //     columns,
+      //     columnDefs,
+      //     data: response.datos,
+      //   });
+      // });
+
+      document.addEventListener("alpine:init", () => {
         const headers = [
-          { title: 'ID', data: 'id' },
-          { title: 'Nombre', data: 'nombre' },
-          { title: 'Descripicón', data: 'descripcion' },
-          { title: 'Acciones', data: 'acciones' },
+          { title: "ID", data: "id" },
+          { title: "Nombre", data: "nombre" },
+          { title: "Descripición", data: "descripcion" },
+          {
+            title: "Acciones",
+            data: "id",
+            render(data, type, row) {
+              const editBtn = `<button class="btn  btn-default btn-sm" type="button"
+              @click="updateItem(${data})">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>`;
+              const deleteBtn = `<button class="btn btn-danger btn-sm" style="margin-left : 5px" type="button"
+              @click="deleteItem(${data})">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>`;
+              return editBtn + deleteBtn;
+            },
+          },
         ];
 
         const [columns, columnDefs] = initialConfigDataTable(headers);
 
-        new DataTable('#table', {
+        new DataTable("#table", {
           processing: true,
           deferRender: true,
           columns,
           columnDefs,
           data: response.datos,
         });
+
+        const defaultFormData = { id: "", nombre: "", descripcion: "" };
+        const defaultFormAlert = { nombre: false };
+
+        Alpine.data("form", () => ({
+          baseURLCreateOrUpdate,
+          baseURLDelete,
+          _token,
+          isCreateOrUpdateForm: true,
+
+          formData: { ...defaultFormData },
+          formAlert: { ...defaultFormAlert },
+
+          deleteItem(itemId) {
+            this.isCreateOrUpdateForm = false;
+            const datos = response.datos.find(({ id }) => id === itemId);
+            this.formData = { ...datos };
+          },
+
+          updateItem(itemId) {
+            this.isCreateOrUpdateForm = true;
+            const datos = response.datos.find(({ id }) => id === itemId);
+            this.formData = { ...datos };
+          },
+
+          handleSubmit() {
+            if (!this.formData.nombre) {
+              this.formAlert.nombre = true;
+            } else {
+              this.$refs.createForm.submit();
+            }
+          },
+
+          resetAlertValidation() {
+            this.formAlert = { ...defaultFormAlert };
+          },
+        }));
       });
 
       // Swal.fire(response.notificacion);
