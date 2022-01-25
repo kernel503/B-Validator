@@ -224,7 +224,12 @@
           data: response.datos,
         });
 
-        const defaultFormData = { id: "", nombre: "", descripcion: "" };
+        const defaultFormData = {
+          id: "",
+          nombre: "",
+          descripcion: "",
+          is_visible: false,
+        };
         const defaultFormAlert = { nombre: false };
 
         Alpine.data("form", () => ({
