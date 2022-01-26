@@ -5,23 +5,26 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-    <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous" />
+      crossorigin="anonymous"
+    />
 
     <title>Registrar Acta</title>
 
     <link
       rel="stylesheet"
-      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" />
+      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
 
     <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
   </head>
@@ -33,7 +36,8 @@
             action=""
             @submit.prevent="validateForm"
             x-data="stepper"
-            x-ref="form">
+            x-ref="form"
+          >
             <div class="card-body">
               <h4>Agregar registro de acta 📝</h4>
               <div class="row">
@@ -44,7 +48,8 @@
                       <template x-for="c in catalogo" :key="c.temporada">
                         <option
                           :value="c.temporada"
-                          x-text="c.temporada"></option>
+                          x-text="c.temporada"
+                        ></option>
                       </template>
                     </select>
                     <small class="form-text text-muted"
@@ -53,7 +58,8 @@
                     <template x-if="temporada.hasError">
                       <small
                         class="form-text text-danger"
-                        x-text="temporada.errorMessage"></small>
+                        x-text="temporada.errorMessage"
+                      ></small>
                     </template>
                   </div>
                 </div>
@@ -68,14 +74,16 @@
                       name="numero_acta"
                       id="numero_acta"
                       x-model="numero_acta.value"
-                      @keyup="handleOnChange" />
+                      @keyup="handleOnChange"
+                    />
                     <small class="form-text text-muted"
                       >El identificador del acta.</small
                     >
                     <template x-if="numero_acta.hasError">
                       <small
                         class="form-text text-danger"
-                        x-text="numero_acta.errorMessage"></small>
+                        x-text="numero_acta.errorMessage"
+                      ></small>
                     </template>
                   </div>
                 </div>
@@ -90,7 +98,8 @@
                       multiple
                       name="archivos"
                       @blur="handleOnChange"
-                      :class="archivos.hasError && 'is-invalid'" />
+                      :class="archivos.hasError && 'is-invalid'"
+                    />
                     <label class="custom-file-label" for="archivos"
                       >Seleccionar Archivo</label
                     >
@@ -99,12 +108,14 @@
                   <template x-if="archivos.hasError">
                     <small
                       class="form-text text-danger"
-                      x-text="archivos.errorMessage"></small>
+                      x-text="archivos.errorMessage"
+                    ></small>
                   </template>
                   <ul class="list-group list-group-flush my-3">
                     <template x-for="(file) in archivos.value">
                       <li
-                        class="list-group-item d-flex justify-content-between align-items-center">
+                        class="list-group-item d-flex justify-content-between align-items-center"
+                      >
                         <span x-text="file"></span>
                       </li>
                     </template>
@@ -131,56 +142,57 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
       integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"></script>
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script src="../src/Magnus.js"></script>
   </body>
 
   <script>
     const errorFormulario = [
-      { name: 'identificador', mensaje: 'No debe ser vacio' },
+      { name: "identificador", mensaje: "No debe ser vacio" },
     ];
 
     const catalogo = [
       {
-        temporada: '2012-2014',
+        temporada: "2012-2014",
       },
       {
-        temporada: '2015-2017',
+        temporada: "2015-2017",
       },
       {
-        temporada: '2018-2020',
+        temporada: "2018-2020",
       },
     ];
 
     $(document).ready(function () {
-      window.selectedInputTemporada = $('#temporada')
+      window.selectedInputTemporada = $("#temporada")
         .select2({
-          width: '100%',
-          placeholder: 'Seleccionar una temporada',
+          width: "100%",
+          placeholder: "Seleccionar una temporada",
         })
-        .val('')
-        .trigger('change');
+        .val("")
+        .trigger("change");
     });
 
-    document.addEventListener('alpine:init', () => {
+    document.addEventListener("alpine:init", () => {
       let isValidForm = false;
 
-      Alpine.data('stepper', () => ({
+      Alpine.data("stepper", () => ({
         catalogo,
         fileList: [],
 
         numero_acta: {
-          value: '',
+          value: "",
           hasError: false,
-          errorMessage: '',
+          errorMessage: "",
           validation: _.debounce(function () {
             this.hasError = false;
             const result = new Magnus(this.value).required();
             if (!result.ok) {
               isValidForm = false;
               this.hasError = true;
-              this.errorMessage = result.errorList.join(' ');
+              this.errorMessage = result.errorList.join(" ");
             }
           }, 500),
         },
@@ -188,7 +200,7 @@
         archivos: {
           value: [],
           hasError: false,
-          errorMessage: 'Debe agregar al menos un documento.',
+          errorMessage: "Debe agregar al menos un documento.",
           validation(e) {
             this.hasError = false;
             const files = e.target.files;
@@ -207,18 +219,18 @@
 
         temporada: {
           hasError: false,
-          errorMessage: 'Debe seleccionar una temporada.',
+          errorMessage: "Debe seleccionar una temporada.",
           validation(e) {
             const value = window.selectedInputTemporada.val();
             const spanSelect = document.querySelector(
-              '.select2-selection.select2-selection--single'
+              ".select2-selection.select2-selection--single"
             );
 
-            spanSelect.style.border = '1px solid #aaa';
+            spanSelect.style.border = "1px solid #aaa";
             if (value === null || value === undefined) {
               isValidForm = false;
               this.hasError = true;
-              spanSelect.style.border = '1px solid #dc3545';
+              spanSelect.style.border = "1px solid #dc3545";
             }
           },
         },
@@ -238,23 +250,23 @@
           if (isValidForm) {
             this.$refs.form.submit();
           } else {
-            console.log('SnackBar Error');
+            console.log("SnackBar Error");
           }
         },
 
         resetForm() {
-          this.numero_acta.value = '';
+          this.numero_acta.value = "";
           this.numero_acta.hasError = false;
 
           this.archivos.value = [];
           this.archivos.hasError = false;
 
-          window.selectedInputTemporada.val('').trigger('change');
+          window.selectedInputTemporada.val("").trigger("change");
           this.temporada.hasError = false;
           const spanSelect = document.querySelector(
-            '.select2-selection.select2-selection--single'
+            ".select2-selection.select2-selection--single"
           );
-          spanSelect.style.border = '1px solid #aaa';
+          spanSelect.style.border = "1px solid #aaa";
         },
 
         handleOnChange(e) {
