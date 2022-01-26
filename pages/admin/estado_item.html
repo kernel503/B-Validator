@@ -100,13 +100,17 @@
                 :class="{'has-error' : formAlert.is_visible}"
               >
                 <label class="control-label" for="nombre">
-                  Debe ser ocultado
+                  Visibilidad del elemento
                 </label>
-                <input
-                  type="checkbox"
+                <select
+                  class="form-control"
                   name="is_visible"
                   x-model="formData.is_visible"
-                />
+                >
+                  <option value="true">Visible</option>
+                  <option value="false">Oculto</option>
+                </select>
+                <!-- <input type="checkbox" name="is_visible" /> -->
               </div>
             </div>
           </div>
@@ -247,7 +251,7 @@
             title: "Ocultar registro",
             data: "is_visible",
             render(data, type, row) {
-              return data ? "Oculto" : "No oculto";
+              return data ? "Visible" : "Oculto";
             },
           },
           {
@@ -282,7 +286,7 @@
           nombre_corto: "",
           nombre: "",
           descripcion: "",
-          is_visible: false,
+          is_visible: true,
         };
         const defaultFormAlert = { nombre_corto: false, nombre: false };
 
