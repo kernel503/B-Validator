@@ -5,23 +5,27 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous" />
+      crossorigin="anonymous"
+    />
 
     <title>Filtrar Acta</title>
 
     <link
       rel="stylesheet"
-      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" />
+      href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+    />
     <link
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
 
     <script src="../src/alpinejs@3.4.2.cdn.min.js" defer></script>
   </head>
@@ -33,7 +37,8 @@
             action=""
             @submit.prevent="submitForm"
             x-data="stepper"
-            x-ref="form">
+            x-ref="form"
+          >
             <div class="card-body">
               <h4>Filtrar Acta</h4>
               <div class="row">
@@ -41,20 +46,15 @@
                   <div class="form-group">
                     <label for="temporada" class="mb-0">Temporada</label>
 
-                    <select id="temporada" name="temporada" multiple>
-                      <template x-for="c in catalogo" :key="c.temporada">
-                        <option
-                          :value="c.temporada"
-                          x-text="c.temporada"></option>
-                      </template>
-                    </select>
+                    <select id="temporada" name="temporada" multiple></select>
                     <small class="form-text text-muted"
                       >Temporada de gestión.</small
                     >
                     <template x-if="temporada.hasError">
                       <small
                         class="form-text text-danger"
-                        x-text="temporada.errorMessage"></small>
+                        x-text="temporada.errorMessage"
+                      ></small>
                     </template>
                   </div>
 
@@ -66,19 +66,22 @@
                       :class="numero_acta.hasError && 'is-invalid'"
                       name="numero_acta"
                       id="numero_acta"
-                      x-model="numero_acta.value" />
+                      x-model="numero_acta.value"
+                    />
                     <small class="form-text text-muted"
                       >El identificador del acta.</small
                     >
                     <template x-if="numero_acta.hasError">
                       <small
                         class="form-text text-danger"
-                        x-text="numero_acta.errorMessage"></small>
+                        x-text="numero_acta.errorMessage"
+                      ></small>
                     </template>
                     <button
                       type="button"
                       class="btn btn-dark mt-4"
-                      @click="resetForm">
+                      @click="resetForm"
+                    >
                       Limpiar
                     </button>
                     <button type="submit" class="btn btn-primary mt-4">
@@ -104,109 +107,53 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
       integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"></script>
+      referrerpolicy="no-referrer"
+    ></script>
 
     <script src="../src/Magnus.js"></script>
   </body>
 
   <script>
     const errorFormulario = [
-      { name: 'identificador', mensaje: 'No debe ser vacio' },
+      { name: "identificador", mensaje: "No debe ser vacio" },
     ];
 
     const catalogo = [
       {
-        temporada: '2012-2014',
+        id: 1,
+        text: "2012-2014",
       },
       {
-        temporada: '2015-2017',
+        id: 2,
+        text: "2015-2017",
       },
       {
-        temporada: '2018-2020',
+        id: 3,
+        text: "2018-2020",
       },
     ];
 
-    let isValidForm = false;
-    let selectTemporada = null;
+    document.addEventListener("alpine:init", () => {
+      $("#temporada")
+        .select2({
+          width: "100%",
+          placeholder: "Seleccionar una temporada",
+          data: catalogo,
+        })
+        .val("")
+        .trigger("change");
 
-    $(document).ready(function () {
-      window.selectedInputTemporada = $('#temporada')
-        .select2({ width: '100%', placeholder: 'Seleccionar una temporada' })
-        .val('')
-        .trigger('change');
-
-      selectTemporada = document.querySelector(
-        '[aria-labelledby="select2-temporada-container"]'
-      );
-    });
-
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('stepper', () => ({
-        catalogo,
-        fileList: [],
-
-        numero_acta: {
-          value: '',
-          hasError: false,
-          errorMessage: '',
-          validation: _.debounce(function () {
-            this.hasError = false;
-            const result = new Magnus(this.value).required();
-            if (!result.ok) {
-              isValidForm = false;
-              this.hasError = true;
-              this.errorMessage = result.errorList.join(' ');
-            }
-          }, 500),
-        },
-
-        temporada: {
-          hasError: false,
-          errorMessage: 'Debe seleccionar una temporada.',
-          validation(e) {
-            const value = window.selectedInputTemporada.val();
-            selectTemporada.style.border = '1px solid #aaa';
-
-            if (value === null || value === undefined) {
-              isValidForm = false;
-              this.hasError = true;
-              selectTemporada.style.border = '1px solid #dc3545';
-            }
-          },
-        },
-
+      Alpine.data("stepper", () => ({
         submitForm() {
-          console.log('hi');
-          console.log(this.$refs.form);
           const formData = new FormData(this.$refs.form);
           console.log(formData);
           for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+            console.log(pair[0] + ", " + pair[1]);
           }
-        },
-        validateForm() {
-          isValidForm = true;
-
-          // this.numero_acta.validation();
-          // this.numero_acta.validation.flush();
-
-          // this.temporada.validation();
-
-          // if (isValidForm) {
-          //   this.$refs.form.submit();
-          // } else {
-          //   console.log('SnackBar Error');
-          // }
         },
 
         resetForm() {
-          this.numero_acta.value = '';
-          this.numero_acta.hasError = false;
-
-          window.selectedInputTemporada.val('').trigger('change');
-          this.temporada.hasError = false;
-
-          selectTemporada.style.border = '1px solid #aaa';
+          $("#temporada").val("").trigger("change");
         },
       }));
     });
